@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./logo">
+    <title>Puxa pelos Neurónios</title>
+    <style>
+        body {
+            background: #EEE;
+            color: #111;
+            font-family: 'Lucida Console';
+            letter-spacing: -1px;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .logo {
+            width: 75px;
+        }
+
+        #ac {
+            margin: 0 auto;
+        }
+
+        .words {
+            margin-top: 15px;
+            padding: 0;
+            width: 100%;
+        }
+
+        .words li {
+            display: inline-block;
+            position: relative;
+            color: #333333;
+            background-color: #FFFFFF;
+            box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.26);
+            margin-right: 4px;
+            margin-bottom: 2px;
+            margin-top: 2px;
+        }
+
+        .words li p {
+            padding: 10px;
+            margin: 0;
+        }
+
+        .parent {
+          margin: 1rem;
+          padding: 1rem 1rem;
+          text-align: center;
+        }
+
+        .child {
+          display: inline-block;
+          padding: 2px 2px;
+          vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="./logo" class="logo" />
+        <div>
+            <h1>As Raparigas do Código</h1>
+            <h2>Puxa pelos Neurónios</h2>
+        </div>
+    </div>
+    <div class="parent">
+        <div class="child">
+            <h3>Deteção de Objetos</h3>
+            <img src="./object_detector" id="od" />
+        </div>
+        <div class="child">
+            <h3>Deteção da Pose Humana</h3>
+            <img src="./pose_estimator" id="pe" />
+        </div>
+    </div>
+    <div>
+        <h3>Classificação do Som Ambiente</h3>
+        <div id="ac"></div>
+    </div>
+    <script type="application/javascript">
+        window.onload = function(e)
+        {
+            function updateObjectDetector()
+            {
+                let odElement = document.getElementById('od');
+                odElement.src = './object_detector?rand=' + Math.random();
+            }
+
+            updateObjectDetector();
+
+            function updatePoseEstimator()
+            {
+                let odElement = document.getElementById('pe');
+                odElement.src = './pose_estimator?rand=' + Math.random();
+            }
+
+            updatePoseEstimator();
+
+            document.getElementById("ac").style.width = (document.getElementById('od').width + document.getElementById('pe').width) + "px";
+
+            setInterval(updateObjectDetector, 50);
+            setInterval(updatePoseEstimator, 50);
+
+            function updateAudioClassifier()
+            {
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function ()
+                {
+                    if (this.readyState == 4 && this.status == 200)
+                    {
+                        let resp = JSON.parse(this.responseText);
+                        let out = "<ul class='words'>";
+                        let i;
+                        for (i = 0; i < resp.predictions.length; i++)
+                        {
+                            out += '<li><p>' + resp.predictions[i].label + ' (' + round(resp.predictions[i].probability * 100, 0) + '%)</p></li>';
+                        }
+                        out += "</ul>"
+                        document.getElementById("ac").innerHTML = out;
+                    }
+                };
+                xmlHttp.open("GET", "./audio_classifier", true);
+                xmlHttp.send();
+            }
+
+            updateAudioClassifier();
+            setInterval(updateAudioClassifier, 2250);
+
+            function round(value, precision)
+            {
+                let multiplier = Math.pow(10, precision || 0);
+                return Math.round(value * multiplier) / multiplier;
+            }
+        }
+    </script>
+</body>
+</html>

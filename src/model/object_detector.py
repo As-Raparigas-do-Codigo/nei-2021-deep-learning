@@ -1,9 +1,12 @@
 from .base import MAXModel
 import cv2
 import json
+import os
 
 
 class ObjectDetector(MAXModel):
+
+    _OUTPUT_FILE_NAME = "object_detector.jpg"
 
     def frame_callback(self, frame):
         color = (36, 255, 12)
@@ -25,9 +28,10 @@ class ObjectDetector(MAXModel):
                 x = int(x_min * width)
                 y = int(y_min * height)
                 text_position = (x + 2, y + 14)
-                label = f"{pred['label']}: {round(pred['probability'] * 100, 1)}%"
+                label = f"{pred['label'].capitalize()}: {round(pred['probability'] * 100)}%"
                 (text_w, text_h), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                 frame = cv2.rectangle(frame, (x, y), (x + text_w + 5, y + text_h + 12), color, -1)
                 cv2.putText(frame, label, text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
 
-        cv2.imshow("Object Detector", frame)
+        # cv2.imshow("Object Detector", frame)
+        cv2.imwrite(os.path.join(self._OUTPUT_DIR, self._OUTPUT_FILE_NAME), frame)
