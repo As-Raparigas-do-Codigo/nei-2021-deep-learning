@@ -7,7 +7,7 @@
 #### https://developer.ibm.com/exchanges/models/all/max-audio-classifier/
 
 ## Run Locally
-1. Build the required Docker images
-2. Run 'main.py' to start the Docker containers and the video/audio capture 
-3. Run 'server.py' to start the web server
+1. Build the required Docker images.
+2. Run 'main.py' to start the Docker containers and the video/audio capture.
+3. Run 'server.py' to start the web server.
 4. Go to http://localhost:8080. The models' results are displayed in a simple web app. 
