@@ -15,6 +15,7 @@
         }
 
         .logo {
+            margin-top: 10px;
             width: 75px;
         }
 
@@ -53,6 +54,11 @@
             display: inline-block;
             padding: 2px 2px;
             vertical-align: top;
+            width: 49%;
+        }
+
+        .child img {
+            width: -webkit-fill-available;
         }
 
         .exploreIconSelect {
@@ -66,9 +72,14 @@
             border-style: solid;
         }
 
-        #ip {
+        #ip1 {
             margin: 0 auto;
-            padding-bottom: 10px;
+            padding-bottom: 1px;
+        }
+
+        #ip2 {
+            margin: 0 auto;
+            padding-bottom: 20px;
         }
 
         .foundIcon {
@@ -87,14 +98,14 @@
     <div class="parent">
         <div class="child">
             <h3>Deteção de Objetos</h3>
-            <img src="./object_detector" id="od" />
+            <img src="{{ url_for('video_object_detector') }}" id="od" />
         </div>
         <div class="child">
             <h3>Deteção da Pose Humana</h3>
-            <img src="./pose_estimator" id="pe" />
+            <img src="{{ url_for('video_pose_estimator') }}" id="pe" />
         </div>
     </div>
-    <div id="ip">
+    <div id="ip1">
         <img title="person" id="person" class="exploreIconSelect" src="./cocoicons/1.jpg" style="">
         <img title="backpack" id="backpack" class="exploreIconSelect" src="./cocoicons/27.jpg">
         <img title="umbrella" id="umbrella" class="exploreIconSelect" src="./cocoicons/28.jpg">
@@ -135,6 +146,8 @@
         <img title="surfboard" id="surfboard" class="exploreIconSelect" src="./cocoicons/42.jpg">
         <img title="tennis racket" id="tennis_racket" class="exploreIconSelect" src="./cocoicons/43.jpg">
         <img title="bottle" id="bottle" class="exploreIconSelect" src="./cocoicons/44.jpg">
+    </div>
+    <div id="ip2">
         <img title="wine glass" id="wine_glass" class="exploreIconSelect" src="./cocoicons/46.jpg">
         <img title="cup" id="cup" class="exploreIconSelect" src="./cocoicons/47.jpg">
         <img title="fork" id="fork" class="exploreIconSelect" src="./cocoicons/48.jpg">
@@ -183,11 +196,8 @@
     <script type="application/javascript">
         window.onload = function(e)
         {
-            function updateObjectDetector()
+            function updateObjectDetectorLabels()
             {
-                let odElement = document.getElementById('od');
-                odElement.src = './object_detector?rand=' + Math.random();
-
                 let xmlHttp = new XMLHttpRequest();
                 xmlHttp.onreadystatechange = function ()
                 {
@@ -209,21 +219,11 @@
                 xmlHttp.send();
             }
 
-            updateObjectDetector();
-
-            function updatePoseEstimator()
-            {
-                let odElement = document.getElementById('pe');
-                odElement.src = './pose_estimator?rand=' + Math.random();
-            }
-
-            updatePoseEstimator();
-
             document.getElementById("ac").style.width = (document.getElementById('od').width + document.getElementById('pe').width) + "px";
-            document.getElementById("ip").style.width = (document.getElementById('od').width + document.getElementById('pe').width) + "px";
+            document.getElementById("ip1").style.width = (document.getElementById('od').width + document.getElementById('pe').width) + "px";
+            document.getElementById("ip2").style.width = (document.getElementById('od').width + document.getElementById('pe').width) + "px";
 
-            setInterval(updateObjectDetector, 100);
-            setInterval(updatePoseEstimator, 100);
+            setInterval(updateObjectDetectorLabels, 500);
 
             function updateAudioClassifier()
             {
@@ -245,7 +245,6 @@
                 xmlHttp.send();
             }
 
-            updateAudioClassifier();
             setInterval(updateAudioClassifier, 2250);
 
             function round(value, precision)

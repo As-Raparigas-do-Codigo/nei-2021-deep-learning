@@ -4,3 +4,4 @@ Wave==0.0.2
 PyAudio==0.2.11
 Flask==2.0.1
 docker==5.0.2
+imutils==0.5.4

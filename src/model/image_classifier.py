@@ -7,15 +7,15 @@ class ResNetImageClassifier(MAXModel):
 
     def __init__(self, host="localhost", port=5000, resize_dim=None):
         super().__init__(host=host, port=port)
-        self.resize_dim = resize_dim
+        self._resize_dim = resize_dim
 
     def frame_callback(self, frame):
         color = (36, 255, 12)
         position = (15, 35)
         orig_frame = frame
 
-        if self.resize_dim is not None:
-            frame = cv2.resize(frame, self.resize_dim)
+        if self._resize_dim is not None:
+            frame = cv2.resize(frame, self._resize_dim)
 
         response = self._post_image(frame)
         result = json.loads(response.text)

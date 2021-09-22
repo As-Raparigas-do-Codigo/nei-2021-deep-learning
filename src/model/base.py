@@ -22,9 +22,9 @@ class MAXModel(BaseModel, ABC):
 
     def __init__(self, host="localhost", port=5000):
         super().__init__()
-        self.host = host
-        self.port = port
-        self.url = f'http://{self.host}:{self.port}/model/predict'
+        self._host = host
+        self._port = port
+        self._url = f'http://{self._host}:{self._port}/model/predict'
 
     def _post_image(self, frame, query_params=None, include_mime=False):
         temp_file = NamedTemporaryFile(suffix=".jpg", delete=False)
@@ -37,7 +37,7 @@ class MAXModel(BaseModel, ABC):
             file_form = {'image': f}
         if query_params is None:
             query_params = {}
-        response = requests.post(self.url, params=query_params, files=file_form)
+        response = requests.post(self._url, params=query_params, files=file_form)
         f.close()
         os.unlink(temp_file.name)
         return response
@@ -47,7 +47,7 @@ class MAXModel(BaseModel, ABC):
         if query_params is None:
             query_params = {}
         files = {'audio': (audio_path, f, 'audio/wav')}
-        response = requests.post(self.url, params=query_params, files=files)
+        response = requests.post(self._url, params=query_params, files=files)
         f.close()
         os.unlink(audio_path)
         return response

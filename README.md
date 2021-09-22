@@ -8,6 +8,5 @@
 
 ## Run Locally
 1. Build the required Docker images.
-2. Run 'main.py' to start the Docker containers and the video/audio capture.
-3. Run 'server.py' to start the web server.
-4. Go to http://localhost:8080. The models' results are displayed in a simple web app. 
+2. Run 'main.py' to start all systems.
+3. Go to http://localhost:8081. The models' results are displayed in a simple web app. 
