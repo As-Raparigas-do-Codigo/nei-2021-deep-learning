@@ -132,3 +132,4 @@ dmypy.json
 .idea/
 max-models/
 src/web/output/
+.DS_Store

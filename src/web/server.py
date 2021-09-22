@@ -13,9 +13,20 @@ def get_logo_image():
     return send_file("./logo.png", mimetype='image/png')
 
 
+@app.route('/cocoicons/<file>')
+def get_coco_icon(file):
+    return send_file(f"./cocoicons/{file}", mimetype='image/jpg')
+
+
 @app.route('/object_detector')
 def get_object_detector_image():
     return send_file("./output/object_detector.jpg", mimetype='image/jpg')
+
+
+@app.route('/object_detector_labels')
+def get_object_detector_labels():
+    with open("./output/object_detector.json") as json_file:
+        return json.load(json_file)
 
 
 @app.route('/pose_estimator')
