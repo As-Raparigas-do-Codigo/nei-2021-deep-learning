@@ -35,7 +35,7 @@ class PoseEstimator(MAXModel):
             for pred in result["predictions"]:
                 for pl in pred["pose_lines"]:
                     x1, y1, x2, y2 = pl["line"]
-                    frame = cv2.line(frame, (x1, y1), (x2, y2), color, 2)
+                    frame = cv2.line(frame, (x1, y1), (x2, y2), color, 3)
 
         _, frame = cv2.imencode('.jpg', frame)
         self._mutex_frame.acquire()

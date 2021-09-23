@@ -81,7 +81,8 @@ if __name__ == '__main__':
     obj_detector_model = ObjectDetector(port=5001)
     pose_estimator_model = PoseEstimator(port=5002)
     print("Starting video capture...")
-    video_cap = VideoCapture([obj_detector_model.frame_callback, pose_estimator_model.frame_callback], sleep_time=_SLEEP_TIME)
+    video_cap = VideoCapture([obj_detector_model.frame_callback, pose_estimator_model.frame_callback],
+                             sleep_time=_SLEEP_TIME, device_index=0)
     video_cap.start()
 
     audio_clf_model = AudioClassifier(port=5003)
