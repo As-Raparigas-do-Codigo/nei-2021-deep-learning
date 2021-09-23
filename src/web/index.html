@@ -247,6 +247,16 @@
 
             setInterval(updateAudioClassifier, 2250);
 
+            document.body.onkeyup = function(e)
+            {
+                if(e.keyCode === 32)
+                {
+                    let xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open("POST", "./space_bar", true);
+                    xmlHttp.send();
+                }
+            }
+
             function round(value, precision)
             {
                 let multiplier = Math.pow(10, precision || 0);

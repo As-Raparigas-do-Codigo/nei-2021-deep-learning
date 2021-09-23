@@ -46,13 +46,19 @@ def video_object_detector():
 def video_pose_estimator():
     return Response(gen_frames(pose_estimator_model), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/space_bar', methods=['POST'])
+def post_space_bar():
+    obj_detector_model.space_bar()
+    return Response("", 204)
+
 
 if __name__ == '__main__':
     docker_client = docker.from_env()
     print("Starting Docker containers...")
     containers = [
         # docker run -it -p 5001:5000 max-object-detector
-        docker_client.containers.run("max-object-detector", detach=True, ports={5000: 5001}),
+        # docker_client.containers.run("max-object-detector", detach=True, ports={5000: 5001}),
+        docker_client.containers.run("quay.io/codait/max-object-detector:intel-x86_64-v2.0.0-faster_rcnn_resnet101", detach=True, ports={5000: 5001}),
         # docker run -it -p 5002:5000 max-human-pose-estimator
         docker_client.containers.run("max-human-pose-estimator", detach=True, ports={5000: 5002}),
         # docker run -it -p 5003:5000 max-audio-classifier
